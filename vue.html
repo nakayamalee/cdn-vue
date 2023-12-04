@@ -4,10 +4,55 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
+  <style>
+    img {
+      width: 100%;
+    }
+  </style>
 </head>
 <body>
-  <div id="app">{{ message }}</div>
+  <div id="app">
+    {{ message }}
+    <div>
+      數字: {{ count }}
+    </div>
 
+
+    <!-- v-on:(完整寫法) + 監聽的事件名(click) => 點擊事件 -->
+    <button type="button" v-on:click="count++">增加(完整寫法)</button>
+    <div></div>
+    <!-- @(簡寫) + 監聽的事件名(click) => 點擊事件 -->
+    <button type="button" @click="count++">增加(簡寫)</button>
+    <div></div>
+    <!-- @(簡寫) + 監聽的事件名(click) => 點擊事件 -->
+    <button type="button" @click="addCount()">增加(函式)</button>
+
+    <hr>
+    <!-- v-model (通常寫在input)(雙向綁定) -->
+    <input v-model="inputText" type="text">
+    <div></div>
+    <!-- input值為多少 資料就跟著變動，反過來說也一樣 -->
+    {{ inputText }}
+
+    <hr>
+
+    <!-- v-if =  (判斷式) => 假設為真 該元素會出現在文件內，反之，不出現在文件內 -->
+    <div>
+      <div>戰力: {{ power }}</div>
+      <button type="button" @click="power++">增加戰力</button>
+      <button type="button" @click="power--">減少戰力</button>
+      <img v-if="power < 5" src="./image/doge-bread.jpg" alt="">
+      <img v-else-if="power < 10" src="./image/doge-weak.png" alt="">
+      <img v-else src="./image/doge-strong.jpg" alt="">
+
+      <!-- v-show = (判斷式) =>  假設為真 該元素會移除display: none,
+      反之 增加display: none -->
+      <div v-show="power > 5">v-show</div>
+
+    </div>
+
+    
+  </div>
 
   <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
   <script>
@@ -29,12 +74,23 @@
           message: 'Hello Vue!',
           array: [],
           object: {},
+          count: 0,
+          inputText: '雙向綁定',
+          power: 0,
         }
       },
 
       // 函式(function)區塊
       methods: {
         // 寫function的地方
+        addCount() {
+          // 取不到count
+          // count++;
+
+          // 要到其他分區取資料 要用this
+          // console.log(this);
+          this.count++;
+        },
       },
 
 

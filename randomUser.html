@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      margin: 0px;
+      padding: 0px;
+    }
+    .container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+    }
+    .card {
+      border: 1px solid #000;
+      width: 200px;
+    }
+    .card-image {
+      width: 100%;
+      position: relative;
+    }
+    img {
+      width: 100%;
+    }
+    .card-body {
+      padding: 15px 20px;
+      
+    }
+    form {
+      margin-bottom: 100px;
+    }
+    iframe {
+      width: 100%;
+    }
+    .card-image::after {
+      content: '🤍';
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 20%;
+      aspect-ratio: 1/1;
+      border: 1px solid #000;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .card-image.active::after {
+      content: '❤️';
+    }
+  </style>
+</head>
+<body>
+  <div id="app">
+    <div class="container">
+      <div v-for="user in userData" class="card">
+        <!-- 原本資料中沒有like屬性即null   user.like = (!null) -->
+        <div :class="{ 'active': user.like }" class="card-image" @click="user.like = !user.like">
+          <img :src="user.picture.large" alt="">
+        </div>
+        <div class="card-body">
+          <div class="name">{{ user.name.title + ' ' + user.name.first + ' ' + user.name.last }}</div>
+          <div class="cell">{{ user.cell }}</div>
+        </div>
+        <iframe :src="map(user.location.coordinates)" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+    </div>
+  </div>
+  <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+  <script>
+    const { createApp } = Vue;
+
+    createApp({
+      data() {
+        return {
+          userData: [],
+        };
+      },
+
+      // cdn的時候可能沒有效果
+      // 畫面呈現都完成的時候
+      mounted() {
+        fetch('https://randomuser.me/api/?results=10')
+          .then(res => res.json())
+          .then((data) => {
+            console.log(data);
+            this.userData = [ ...data.results ];
+          });
+      },
+
+      methods: {
+        map(location) {
+          return `//maps.google.com/maps?q=${location.latitude},${location.longitude}&z=15&output=embed`;
+        },
+      },
+    }).mount('#app');
+  </script>
+</body>
+</html>

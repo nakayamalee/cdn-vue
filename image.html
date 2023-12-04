@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    img {
+      width: 250px;
+    }
+
+    .red {
+      color: red;
+    }
+    .text-bold {
+      font-weight: bolder;
+    }
+    .text-center {
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <div id="app">
+    <!-- v-bind: + 屬性 (屬性綁定) (完整寫法) -->
+    <!-- <img v-bind:src="imgPath" alt="" @click="changeImage()"> -->
+
+    <!-- : + 屬性 (屬性綁定) (簡寫) -->
+    <img :src="imgPath" alt="" @click="changeImage()">
+
+    <!-- <h1 v-bind:class="'red'">屬性綁定</h1> -->
+    <hr>
+    <!-- 第一種寫法 :class="{ 'class名稱': 判斷式, ... }" -->
+    <!-- <h1 :class="{ 'red': power >= 9000, 'class': true }" class="text-bold">戰力: {{ power }}</h1> -->
+
+    <!-- 第二種寫法 :class="fn" 依靠function 回傳要使用的class名稱-->
+    <h1 :class="cssStyle()">戰力: {{ power }}</h1>
+
+
+    <button type="button" @click="power++">增加戰力</button>
+  </div>
+  <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+  <script>
+    const { createApp } = Vue;
+
+    createApp({
+      data() {
+        return {
+          state: 1,
+          imgPath: './image/doge-bread.jpg',
+          power: 8999,
+        };
+      },
+      methods: {
+        changeImage() {
+          // 換圖
+          if (this.state === 1) {
+            this.imgPath = './image/doge-weak.png';
+            this.state = 2;
+          } else if (this.state === 2) {
+            this.imgPath = './image/doge-strong.jpg';
+            this.state = 3;
+          } else {
+            this.imgPath = './image/doge-bread.jpg';
+            this.state = 1;
+          }
+        },
+        cssStyle() {
+          if (this.power >= 9000) {
+            return 'red text-center';
+          }
+          return '';
+        },
+      },
+    }).mount('#app');
+  </script>
+</body>
+</html>
