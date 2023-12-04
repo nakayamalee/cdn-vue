@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <div id="app">{{ message }}</div>
+
+
+  <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+  <script>
+    const { createApp } = Vue;
+  
+    createApp({
+
+      // ES6 之前
+      // data: function() {
+      //   return {
+      //     message: 'Hello Vue!'
+      //   }
+      // },
+
+      // 資料(宣告資料的分區)
+      data() {
+        // 資料這區一定要return
+        return {
+          message: 'Hello Vue!',
+          array: [],
+          object: {},
+        }
+      },
+
+      // 函式(function)區塊
+      methods: {
+        // 寫function的地方
+      },
+
+
+
+
+
+    }).mount('#app')
+  </script>
+</body>
+</html>
